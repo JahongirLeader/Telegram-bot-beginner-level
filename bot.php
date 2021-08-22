@@ -95,43 +95,10 @@ $chat_id=$data->chat->id;
 
 
 
-$step=$db->select($chat_id);
-if($step){$step=$step['step'];}
-else $step=0;
 
-if($text=="/start" && $step==0){$bot->sendMessage($chat_id,"Salom royhatdan o'ting");
 
-$db->insert($chat_id);
-$bot->action($chat_id,1);
+if($text=="/start" ){$bot->sendMessage($chat_id,"Salom Men yangi botman");
 
-}
-
-if(!empty($text) && $step==1)
-{
-    $opt="fullname = '$text',step=2 ";
-    $db->update($opt,$chat_id);
-    $bot->action($chat_id,2);
-
-}
- if ($data->photo &&  $step==2) 
- {
-   
-   $photo=$data->photo[0]->file_id;
-   $opt="photo = '$photo',step=3"; 
-    if($db->update($opt,$chat_id))
-   {
-    $bot->action($chat_id,3);
-   }
- }
-
-if($text=="/me" && $step==3)
-{
-   $user=$db->select($chat_id);
- $name=$user['fullname'];
- $photo=$user['photo'];
- $bot->sendPhoto($chat_id,$photo,$name);
-
-}
 
 
 
